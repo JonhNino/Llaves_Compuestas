@@ -10,7 +10,26 @@ import java.util.List;
 public class main {
 
     public static void main(String[] args) {
+
         EntityManager entityManager = PersistenceUtil.getEntityManager();
+        entityManager.getTransaction().begin();
+        Bill bill = new Bill(new Date());
+        Person person = new Person("Maria", "Gonzalez");
+        bill.setPerson(person);
+
+        List<BillDetail> billDetailList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Book book = new Book("ISNB"+i,"TItulo",23523.2+i);
+            BillDetail billDetail = new BillDetail(2,bill,book);
+            billDetailList.add(billDetail);
+        }
+        bill.setBillDetails(billDetailList);
+        entityManager.persist(bill);
+        entityManager.getTransaction().commit();
+
+    }
+    public  static void createNationalityPerson(EntityManager entityManager){
         entityManager.getTransaction().begin();
         Person person = new Person("Juana","Quiñonez");
         Nationality nationality = new Nationality("Colombiano");
@@ -21,10 +40,10 @@ public class main {
         entityManager.getTransaction().commit();
     }
 
-    public static void createBookCompuesta(){
+    public static void createBookCompuesta() {
         EntityManager entityManager = PersistenceUtil.getEntityManager();
         createBook();
-        BookPk bookPk = new BookPk(5000L,"234523");
+        BookPk bookPk = new BookPk(5000L, "234523");
         Book book = entityManager.find(Book.class, bookPk);
         System.out.println(book);
     }

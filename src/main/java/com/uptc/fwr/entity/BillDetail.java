@@ -9,7 +9,7 @@ public class BillDetail {
     @Id
     @Column(name="ID_DETALLE")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "billDetail_seq")
-    @SequenceGenerator(name="billDetail",sequenceName = "DETALLES_COMPRAS_SEQ",allocationSize = 1)
+    @SequenceGenerator(name="billDetail_seq",sequenceName = "DETALLES_COMPRA_SEQ",allocationSize = 1)
     private Long id;
     @Column(name="ID_COMPRA",insertable = false, updatable = false)
     private Long billId;
@@ -20,7 +20,7 @@ public class BillDetail {
     @ManyToOne
     @JoinColumn(name="ID_COMPRA")
     private Bill bill;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumns({
             @JoinColumn(name="ID_LIBRO"),
             @JoinColumn(name="ISBN")
@@ -35,6 +35,7 @@ public class BillDetail {
         this.bill = bill;
         this.book = book;
     }
+
 
     public Bill getBill() {
         return bill;

@@ -20,10 +20,10 @@ public class Bill {
     private Long personId;
     @Column(name = "FECHA")
     private Date fecha;
-    @ManyToOne
     @JoinColumn(name ="ID_PERSONA")
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Person person;
-    @OneToMany(mappedBy = "bill")
+    @OneToMany(mappedBy = "bill", cascade = CascadeType.PERSIST)
     private List<BillDetail> billDetails;
 
     public Bill() {
@@ -37,6 +37,10 @@ public class Bill {
     public Bill(Date fecha, Person person) {
         this.fecha = fecha;
         this.person = person;
+    }
+
+    public Bill(Date fecha) {
+        this.fecha = fecha;
     }
 
     public List<BillDetail> getBillDetails() {
