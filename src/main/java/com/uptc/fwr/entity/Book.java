@@ -1,39 +1,55 @@
 package com.uptc.fwr.entity;
 
+import com.uptc.fwr.entity.key.BookPk;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="LIBROS")
+@Table(name = "LIBROS")
+@IdClass(BookPk.class)
 public class Book {
+
     @Id
-    @Column(name="ID_LIBRO")
+    @Column(name = "ID_LIBRO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+    @SequenceGenerator(name = "book_seq", sequenceName = "LIBROS_SEQ", allocationSize = 1)
     private Long id;
-    @Column(name="TITULO")
+    @Id
+    private String isbn;
+    @Column(name = "TITULO")
     private String title;
-    @Column(name="PRECIO")
+    @Column(name = "PRECIO")
     private Double price;
     @OneToOne(mappedBy = "book")
     private Edition edition;
 
     @ManyToMany
-    @JoinTable(name="AUTOR_LIBRO",
-            joinColumns = @JoinColumn(name = "ID_LIBRO"),
-            inverseJoinColumns = @JoinColumn(name="ID_AUTOR"))
+    @JoinTable(name = "AUTOR_LIBRO",
+            joinColumns = {
+                    @JoinColumn(name = "ID_LIBRO"),
+                    @JoinColumn(name = "ISBN")},
+            inverseJoinColumns = @JoinColumn(name = "ID_AUTOR"))
     private List<Person> autors;
 
     @OneToMany(mappedBy = "book")
-    private List<BillDetail> billDetails ;
+    private List<BillDetail> billDetails;
 
 
     public Book() {
 
     }
 
-    public Book(Long id, String title, Double price) {
-        this.id = id;
+    public Book(String title, Double price) {
+
+        this.title = title;
+        this.price = price;
+    }
+
+    public Book(String isbn, String title, Double price) {
+
+        this.isbn= isbn;
         this.title = title;
         this.price = price;
     }
@@ -90,10 +106,19 @@ public class Book {
         this.billDetails = billDetails;
     }
 
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
+                ", Isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 '}';

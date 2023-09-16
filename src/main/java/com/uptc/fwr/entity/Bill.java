@@ -1,6 +1,7 @@
 package com.uptc.fwr.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.metamodel.mapping.GeneratedValueResolver;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +13,8 @@ public class Bill {
 
     @Id
     @Column(name = "ID_COMPRA")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bill_seq")
+    @SequenceGenerator(name="bill_seq",sequenceName = "COMPRAS_SEQ",allocationSize = 1)
     private Long id;
     @Column(name = "ID_PERSONA", insertable = false, updatable = false)
     private Long personId;
@@ -24,6 +27,16 @@ public class Bill {
     private List<BillDetail> billDetails;
 
     public Bill() {
+    }
+
+    public Bill(Long personId, Date fecha) {
+        this.personId = personId;
+        this.fecha = fecha;
+    }
+
+    public Bill(Date fecha, Person person) {
+        this.fecha = fecha;
+        this.person = person;
     }
 
     public List<BillDetail> getBillDetails() {

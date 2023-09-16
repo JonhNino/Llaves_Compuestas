@@ -9,13 +9,13 @@
         <class>com.uptc.fwr.entity.Bill</class>
         <class>com.uptc.fwr.entity.BillDetail</class>
         <class>com.uptc.fwr.entity.Edition</class>
+        <class>com.uptc.fwr.entity.Nationality</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
-            <property name="javax.persistence.jdbc.user" value="FERIA_LIBRO"></property>
+            <property name="javax.persistence.jdbc.user" value="FERIA_LIBRO_COMP"></property>
             <property name="javax.persistence.jdbc.password" value="A"></property>
             <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"></property>
             <property name="hibernate.show_sql" value="true"></property>
-
         </properties>
 
     </persistence-unit>

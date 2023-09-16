@@ -1,34 +1,35 @@
 package com.uptc.fwr.entity;
 
+import com.uptc.fwr.entity.key.BookPk;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="EDICIONES")
 public class Edition {
-    @Id
-    @Column(name ="ID_LIBRO")
-    private Long id;
+
+    @EmbeddedId
+    private BookPk bookPk;
+    @Column(name="ISBN",insertable = false,updatable = false)
+    private String isbn;
     @Column(name ="ANIO_PUBLICACION")
     private int year;
     @Column(name ="NUMERO")
     private int number;
     @Column(name ="DESCRIPCION")
     private String description;
+
     @OneToOne
-    @JoinColumn(name = "ID_LIBRO")
+    @JoinColumns({
+            @JoinColumn(name="ID_LIBRO"),
+            @JoinColumn(name="ISBN")
+    })
     @MapsId
     private Book book;
 
     public Edition() {
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getYear() {
         return year;
@@ -65,7 +66,7 @@ public class Edition {
     @Override
     public String toString() {
         return "Edition{" +
-                "id=" + id +
+                "bookPk=" + bookPk +
                 ", year=" + year +
                 ", number=" + number +
                 ", description='" + description + '\'' +

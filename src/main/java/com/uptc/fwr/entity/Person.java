@@ -9,13 +9,14 @@ import java.util.List;
 public class Person {
     @Id
     @Column(name="ID_PERSONA")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_seq")
+    @SequenceGenerator(name="person_seq",sequenceName = "PERSONAS_SEQ",allocationSize = 1)
     private Long id;
     @Column(name="NOMBRES")
     private String name;
     @Column(name="APELLIDOS")
     private String lastName;
-    @Column(name="NACIONALIDAD")
-    private String nationality;
+
     @OneToMany(mappedBy = "person")
     private List<Bill> bills;
     @ManyToMany(mappedBy = "autors")
@@ -24,11 +25,16 @@ public class Person {
 
     }
 
-    public Person(Long id, String name, String lastName, String nationality) {
+    public Person(Long id, String name, String lastName) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
-        this.nationality = nationality;
+
+    }
+
+    public Person(String name, String lastName) {
+        this.name = name;
+        this.lastName = lastName;
     }
 
     public Long getId() {
@@ -55,13 +61,7 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public String getNationality() {
-        return nationality;
-    }
 
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
 
 
     public List<Bill> getBills() {
@@ -85,7 +85,6 @@ public class Person {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", nationality='" + nationality + '\'' +
                 '}';
     }
 }

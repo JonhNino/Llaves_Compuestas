@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 public class BillDetail {
     @Id
     @Column(name="ID_DETALLE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "billDetail_seq")
+    @SequenceGenerator(name="billDetail",sequenceName = "DETALLES_COMPRAS_SEQ",allocationSize = 1)
     private Long id;
     @Column(name="ID_COMPRA",insertable = false, updatable = false)
     private Long billId;
@@ -19,10 +21,19 @@ public class BillDetail {
     @JoinColumn(name="ID_COMPRA")
     private Bill bill;
     @ManyToOne
-    @JoinColumn(name="ID_LIBRO")
+    @JoinColumns({
+            @JoinColumn(name="ID_LIBRO"),
+            @JoinColumn(name="ISBN")
+    })
     private Book book;
 
     public BillDetail() {
+    }
+
+    public BillDetail(int quantity, Bill bill, Book book) {
+        this.quantity = quantity;
+        this.bill = bill;
+        this.book = book;
     }
 
     public Bill getBill() {
