@@ -2,6 +2,8 @@ package com.uptc.fwr.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="NACIONALIDADES")
 public class Nationality {
@@ -14,6 +16,9 @@ public class Nationality {
 
     @Column(name="NOMBRE_NACIONALIDAD")
     private String name;
+
+    @OneToMany(mappedBy = "nationality")
+    private List<NationalityPerson> nationalityPersonList;
 
     public Nationality() {
     }
@@ -38,8 +43,17 @@ public class Nationality {
         this.name = name;
     }
 
+    public List<NationalityPerson> getNationalityPersonList() {
+        return nationalityPersonList;
+    }
+
+    public void setNationalityPersonList(List<NationalityPerson> nationalityPersonList) {
+        this.nationalityPersonList = nationalityPersonList;
+    }
+
     public Nationality(Long id, String name) {
         this.id = id;
         this.name = name;
     }
+
 }

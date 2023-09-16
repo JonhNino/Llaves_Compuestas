@@ -11,6 +11,18 @@ public class main {
 
     public static void main(String[] args) {
         EntityManager entityManager = PersistenceUtil.getEntityManager();
+        entityManager.getTransaction().begin();
+        Person person = new Person("Juana","Quiñonez");
+        Nationality nationality = new Nationality("Colombiano");
+        NationalityPerson nationalityPerson= new NationalityPerson(nationality,person,2023);
+        entityManager.persist(person);
+        entityManager.persist(nationality);
+        entityManager.persist(nationalityPerson);
+        entityManager.getTransaction().commit();
+    }
+
+    public static void createBookCompuesta(){
+        EntityManager entityManager = PersistenceUtil.getEntityManager();
         createBook();
         BookPk bookPk = new BookPk(5000L,"234523");
         Book book = entityManager.find(Book.class, bookPk);

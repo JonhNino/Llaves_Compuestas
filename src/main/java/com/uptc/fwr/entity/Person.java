@@ -5,30 +5,27 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="PERSONAS")
+@Table(name = "PERSONAS")
 public class Person {
     @Id
-    @Column(name="ID_PERSONA")
+    @Column(name = "ID_PERSONA")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_seq")
-    @SequenceGenerator(name="person_seq",sequenceName = "PERSONAS_SEQ",allocationSize = 1)
+    @SequenceGenerator(name = "person_seq", sequenceName = "PERSONAS_SEQ", allocationSize = 1)
     private Long id;
-    @Column(name="NOMBRES")
+    @Column(name = "NOMBRES")
     private String name;
-    @Column(name="APELLIDOS")
+    @Column(name = "APELLIDOS")
     private String lastName;
+
+    @OneToMany(mappedBy = "person")
+    private List<NationalityPerson> nationalityPersonList;
 
     @OneToMany(mappedBy = "person")
     private List<Bill> bills;
     @ManyToMany(mappedBy = "autors")
     private List<Book> books;
+
     public Person() {
-
-    }
-
-    public Person(Long id, String name, String lastName) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
 
     }
 
@@ -36,6 +33,7 @@ public class Person {
         this.name = name;
         this.lastName = lastName;
     }
+
 
     public Long getId() {
         return id;
@@ -61,9 +59,6 @@ public class Person {
         this.lastName = lastName;
     }
 
-
-
-
     public List<Bill> getBills() {
         return bills;
     }
@@ -76,9 +71,18 @@ public class Person {
         return books;
     }
 
+    public List<NationalityPerson> getNationalityPersonList() {
+        return nationalityPersonList;
+    }
+
+    public void setNationalityPersonList(List<NationalityPerson> nationalityPersonList) {
+        this.nationalityPersonList = nationalityPersonList;
+    }
+
     public void setBooks(List<Book> books) {
         this.books = books;
     }
+
     @Override
     public String toString() {
         return "Person{" +
